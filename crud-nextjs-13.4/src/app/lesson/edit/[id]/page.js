@@ -22,13 +22,30 @@ function editLesson({ params }) {
 
   //getSingleLesson
   const getSinlgeLesson = async () => {
+    // try {
+    //   await axios.get(`${endpoint}${id}`,).then((res) => {
+    //     setName(res.data.data.name);
+    //     console.log(res.data.data.name);
+    //     setTitle(res.data.data.title);
+    //     router.push("/lesson");
+    //   });
+    // } catch (error) {
+    //   console.log(error);
+    // }
     try {
-      await axios.get(`${endpoint}${id}`).then((res) => {
-        setName(res.data.data.name);
-        console.log(res.data.data.name);
-        setTitle(res.data.data.title);
-        router.push("/lesson");
-      });
+      //get and pass authorization bearer token
+      const getToken = localStorage.getItem("token");
+      const token = getToken;
+      console.log(getToken);
+      await axios
+        .get(`http://127.0.0.1:8000/api/lesson/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          setName(res.data.data.name);
+          console.log(res.data.data.name);
+          setTitle(res.data.data.title);
+        });
     } catch (error) {
       console.log(error);
     }
@@ -37,11 +54,21 @@ function editLesson({ params }) {
   //updateLesson
   const updateLesson = async (e) => {
     e.preventDefault();
-    const response = await axios
-      .put(`${endpoint}${id}`, { title: title, name: name })
+    const getToken = localStorage.getItem("token");
+    const token = getToken;
+    console.log(getToken);
+    await axios
+      .put(
+        `http://127.0.0.1:8000/api/lesson/${id}`,
+        { title: title, name: name },
+
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      )
       .then((response) => {
         console.log(response.data);
-        router.push("/lesson/lesson");
+        router.push("/lesson");
       })
       .catch((error) => {
         console.log("test__00", error.response.data.errorMsg);

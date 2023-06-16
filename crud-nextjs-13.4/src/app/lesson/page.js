@@ -32,10 +32,18 @@ function page() {
   //get All Post here from API
   const deleteLesson = (id) => {
     try {
-      axios.delete(`http://127.0.0.1:8000/api/lesson/${id}`).then((res) => {
-        console.log(res.data.data);
-        getAllLesson();
-      });
+      //get and pass authorization bearer token
+      const getToken = localStorage.getItem("token");
+      const token = getToken;
+      console.log(getToken);
+      axios
+        .delete(`http://127.0.0.1:8000/api/lesson/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((res) => {
+          console.log(res.data.data);
+          getAllLesson();
+        });
     } catch (error) {
       console.log(error);
     }
