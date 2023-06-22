@@ -5,12 +5,13 @@ import { useState, useEffect } from "react";
 import { Suspense } from "react";
 import { privateRequest } from "../tokenCheck";
 import { useRouter } from "next/navigation";
+import hook from "../../app/hook";
 
 function page() {
   const router = useRouter();
 
   const [lessons, setData] = useState([]);
-
+  hook();
   //Load all post here
   useEffect(() => {
     getAllLesson();

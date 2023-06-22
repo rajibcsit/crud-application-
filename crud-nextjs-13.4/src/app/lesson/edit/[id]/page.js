@@ -2,8 +2,10 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { privateRequest } from "../../../tokenCheck";
+import hook from "../../../hook";
 
 function editLesson({ params }) {
+  hook();
   const endpoint = "http://127.0.0.1:8000/api/lesson/";
 
   const [name, setName] = useState();

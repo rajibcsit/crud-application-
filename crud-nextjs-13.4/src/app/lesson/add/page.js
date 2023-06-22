@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { privateRequest } from "../../tokenCheck";
+import hook from "../../hook";
 
 function addLesson() {
+  hook();
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
 
