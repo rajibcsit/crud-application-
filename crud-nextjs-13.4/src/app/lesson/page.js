@@ -3,12 +3,10 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import { Suspense } from "react";
-import hook from "../../hook";
 import { privateRequest } from "../tokenCheck";
 import { useRouter } from "next/navigation";
 
 function page() {
-  hook();
   const router = useRouter();
 
   const [lessons, setData] = useState([]);

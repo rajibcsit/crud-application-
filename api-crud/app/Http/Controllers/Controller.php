@@ -15,11 +15,11 @@ class Controller extends BaseController
      * Fail message
      * 
      */
-    public function fail($data, $status_code = 400,)
+    public function fail($message, $status_code = 400)
     {
         return response()->json([
             'status' => "fail",
-            'data' => $data
+            'message' => $message
         ], $status_code);
     }
 
@@ -27,11 +27,11 @@ class Controller extends BaseController
      * success message
      * 
      */
-    public function success($message, $status_code = 200,)
+    public function success($data, $status_code = 200,)
     {
         return response()->json([
             'status' => "success",
-            'message' => $message
+            'data' => $data
         ], $status_code);
     }
 }

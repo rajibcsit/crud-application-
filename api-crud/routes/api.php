@@ -6,8 +6,8 @@ use  App\Http\Controllers\LessonController;
 
 
 
-Route::post('/auth/register', [AuthController::class, 'createUser']);
-Route::post('/auth/login', [AuthController::class, 'loginUser']);
+Route::post('auth/register', [AuthController::class, 'createUser']);
+Route::post('auth/login', [AuthController::class, 'loginUser']);
 
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('auth-user', [AuthController::class, 'authUser']);

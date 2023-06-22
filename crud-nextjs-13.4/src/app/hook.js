@@ -1,6 +1,6 @@
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { privateRequest } from "./app/tokenCheck";
+import { privateRequest } from "../app/tokenCheck";
 
 export default function hook() {
   const router = useRouter();

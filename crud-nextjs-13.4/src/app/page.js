@@ -3,8 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { publicRequest } from "../app/tokenCheck";
+import hook from "../app/hook";
 
 function Login() {
+  hook();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -14,15 +17,16 @@ function Login() {
     await publicRequest
       .post("auth/login", { email: email, password: password })
       .then((res) => {
-        let result = res.data;
+        let result = res.data.data;
         console.log(result);
-        if (result.status) {
+        if (result) {
+          console.log(result.token);
           //Set token and user localStorage
           localStorage.setItem("token", result.token);
           localStorage.setItem("user", JSON.stringify(result.user));
           router.push("/lesson");
         } else {
-          alert(result.message);
+          alert("result.message");
         }
       })
       .catch((error) => {
