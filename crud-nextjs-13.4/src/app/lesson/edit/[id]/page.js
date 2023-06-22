@@ -1,9 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
+import { privateRequest } from "../../../tokenCheck";
+import hook from "../../../../hook";
 
 function editLesson({ params }) {
+  hook();
+
   const endpoint = "http://127.0.0.1:8000/api/lesson/";
 
   const [name, setName] = useState();
@@ -22,30 +25,12 @@ function editLesson({ params }) {
 
   //getSingleLesson
   const getSinlgeLesson = async () => {
-    // try {
-    //   await axios.get(`${endpoint}${id}`,).then((res) => {
-    //     setName(res.data.data.name);
-    //     console.log(res.data.data.name);
-    //     setTitle(res.data.data.title);
-    //     router.push("/lesson");
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }
     try {
-      //get and pass authorization bearer token
-      const getToken = localStorage.getItem("token");
-      const token = getToken;
-      console.log(getToken);
-      await axios
-        .get(`http://127.0.0.1:8000/api/lesson/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((res) => {
-          setName(res.data.data.name);
-          console.log(res.data.data.name);
-          setTitle(res.data.data.title);
-        });
+      await privateRequest.get(`lesson/${id}`).then((res) => {
+        setName(res.data.data.name);
+        console.log(res.data.data.name);
+        setTitle(res.data.data.title);
+      });
     } catch (error) {
       console.log(error);
     }
@@ -54,18 +39,8 @@ function editLesson({ params }) {
   //updateLesson
   const updateLesson = async (e) => {
     e.preventDefault();
-    const getToken = localStorage.getItem("token");
-    const token = getToken;
-    console.log(getToken);
-    await axios
-      .put(
-        `http://127.0.0.1:8000/api/lesson/${id}`,
-        { title: title, name: name },
-
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      )
+    await privateRequest
+      .put(`lesson/${id}`, { title: title, name: name })
       .then((response) => {
         console.log(response.data);
         router.push("/lesson");

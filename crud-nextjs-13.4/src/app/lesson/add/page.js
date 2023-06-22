@@ -1,10 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
+import { privateRequest } from "../../tokenCheck";
+import hook from "../../../hook";
 
 function addLesson() {
+  hook();
+
   const [title, setTitle] = useState("");
   const [name, setName] = useState("");
 
@@ -13,8 +16,8 @@ function addLesson() {
   // const errors: {}
   const storeLesson = async (e) => {
     e.preventDefault();
-    await axios
-      .post("http://127.0.0.1:8000/api/lesson", { title: title, name: name })
+    await privateRequest
+      .post("lesson", { title: title, name: name })
       .then((res) => {
         console.log(res.data.data);
         router.push("/lesson");

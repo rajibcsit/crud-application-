@@ -1,3 +1,5 @@
-export function middleware() {
-  console.log("middleware");
+function middleware() {
+  console.log("Middleware test");
 }
+
+export default middleware;

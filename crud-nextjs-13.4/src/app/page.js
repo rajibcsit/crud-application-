@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import axios from "axios";
 import { useRouter } from "next/navigation";
+import { publicRequest } from "../app/tokenCheck";
 
 function Login() {
   const [email, setEmail] = useState("");
@@ -11,8 +11,8 @@ function Login() {
 
   const loginFrom = async (e) => {
     e.preventDefault();
-    await axios
-      .post("http://127.0.0.1:8000/api/auth/login", { email: email, password: password })
+    await publicRequest
+      .post("auth/login", { email: email, password: password })
       .then((res) => {
         let result = res.data;
         console.log(result);

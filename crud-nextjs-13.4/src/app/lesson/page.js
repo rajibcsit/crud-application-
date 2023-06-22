@@ -1,10 +1,16 @@
 "use client";
+
 import Link from "next/link";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { Suspense } from "react";
+import hook from "../../hook";
+import { privateRequest } from "../tokenCheck";
+import { useRouter } from "next/navigation";
 
 function page() {
+  hook();
+  const router = useRouter();
+
   const [lessons, setData] = useState([]);
 
   //Load all post here
@@ -16,15 +22,10 @@ function page() {
   const getAllLesson = async () => {
     try {
       //get and pass authorization bearer token
-      const getToken = localStorage.getItem("token");
-      const token = getToken;
-      console.log(getToken);
-      await axios
-        .get(`http://127.0.0.1:8000/api/lesson`, { headers: { Authorization: `Bearer ${token}` } })
-        .then((res) => {
-          setData(res.data.data);
-          console.log(res.data.data);
-        });
+      await privateRequest.get("lesson").then((res) => {
+        setData(res.data.data);
+        console.log(res.data.data);
+      });
     } catch (error) {
       console.log(error);
     }
@@ -32,21 +33,22 @@ function page() {
   //get All Post here from API
   const deleteLesson = (id) => {
     try {
-      //get and pass authorization bearer token
-      const getToken = localStorage.getItem("token");
-      const token = getToken;
-      console.log(getToken);
-      axios
-        .delete(`http://127.0.0.1:8000/api/lesson/${id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((res) => {
-          console.log(res.data.data);
-          getAllLesson();
-        });
+      privateRequest.delete(`lesson/${id}`).then((res) => {
+        console.log(res.data.data);
+        getAllLesson();
+      });
     } catch (error) {
       console.log(error);
     }
+  };
+
+  /**
+   * Logout function
+   */
+  const logOut = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    router.push("/");
   };
 
   return (
@@ -54,6 +56,11 @@ function page() {
       <div className="container mt-5">
         <div className="header">
           <h2 className="text-2xl">Lesson Lists</h2>
+        </div>
+        <div>
+          <button onClick={logOut} className="bg-red-500 text-white font-bold py-2 px-4 rounded">
+            LogOut
+          </button>
         </div>
         <div className="flex justify-end">
           <a href="lesson/add" class="bg-gray-500 text-white font-bold py-2 px-4 rounded">
